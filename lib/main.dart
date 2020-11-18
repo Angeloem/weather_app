@@ -39,6 +39,111 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final _height = MediaQuery.of(context).size.height;
     final _width = MediaQuery.of(context).size.width;
+
+    final testData = [
+      {
+        'temp': '18',
+        'condition': 'sunny',
+        'region': 'Dar es Salaam',
+        'data': [
+          {
+            'width': _width,
+            'icon': Weather.wind,
+            'key': 'Wind',
+            'value': '1.6',
+            'units': 'km/h',
+            'primaryColor': Color(0xFFB93B58),
+            'secondaryColor': Color(0xFFA42B42),
+          },
+          {
+            'width': _width,
+            'icon': Weather.water,
+            'key': 'Humidity',
+            'value': '75',
+            'units': '%',
+            'primaryColor': Color(0xFFA64A6F),
+            'secondaryColor': Color(0xFF92395D),
+          },
+          {
+            'width': _width,
+            'icon': Weather.gauge,
+            'key': 'Air Pressure',
+            'value': '1025',
+            'units': 'hpa',
+            'primaryColor': Color(0xFFA64A6F),
+            'secondaryColor': Color(0xFF92395D),
+          },
+        ]
+      },
+      {
+        'temp': '10',
+        'condition': 'cloudy',
+        'region': 'Mbeya',
+        'data': [
+          {
+            'width': _width,
+            'icon': Weather.wind,
+            'key': 'Wind',
+            'value': '2.1',
+            'units': 'km/h',
+            'primaryColor': Color(0xFFB93B58),
+            'secondaryColor': Color(0xFFA42B42),
+          },
+          {
+            'width': _width,
+            'icon': Weather.water,
+            'key': 'Humidity',
+            'value': '75',
+            'units': '%',
+            'primaryColor': Color(0xFFA64A6F),
+            'secondaryColor': Color(0xFF92395D),
+          },
+          {
+            'width': _width,
+            'icon': Weather.gauge,
+            'key': 'Air Pressure',
+            'value': '1025',
+            'units': 'hpa',
+            'primaryColor': Color(0xFFA64A6F),
+            'secondaryColor': Color(0xFF92395D),
+          },
+        ]
+      },
+      {
+        'temp': '18',
+        'condition': 'rainy',
+        'region': 'Manyara',
+        'data': [
+          {
+            'width': _width,
+            'icon': Weather.wind,
+            'key': 'Wind',
+            'value': '3.0',
+            'units': 'km/h',
+            'primaryColor': Color(0xFFB93B58),
+            'secondaryColor': Color(0xFFA42B42),
+          },
+          {
+            'width': _width,
+            'icon': Weather.water,
+            'key': 'Humidity',
+            'value': '75',
+            'units': '%',
+            'primaryColor': Color(0xFFA64A6F),
+            'secondaryColor': Color(0xFF92395D),
+          },
+          {
+            'width': _width,
+            'icon': Weather.gauge,
+            'key': 'Air Pressure',
+            'value': '1025',
+            'units': 'hpa',
+            'primaryColor': Color(0xFFA64A6F),
+            'secondaryColor': Color(0xFF92395D),
+          },
+        ]
+      }
+    ];
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -48,124 +153,43 @@ class _MyHomePageState extends State<MyHomePage> {
           padding:
               EdgeInsets.only(left: 5.0, right: 5.0, top: 10.0, bottom: 5.0),
           margin: EdgeInsets.zero,
-          child: IntroductionScreen(
-            pages: [
-              PageViewModel(
-                  titleWidget: SizedBox(
-                    height: 0,
-                  ),
-                  bodyWidget: Container(
-                    width: _width - 10,
-                    height: _height,
-                    padding:
-                        EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0),
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [Color(0xFF6B2652), Color(0xFF3E2E4E)])),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              /// the first container keeps the temperature and
-                              /// the condition along with the region while the
-                              /// second one keeps the icon of the moon or the sun
-                              Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          '18',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 62.0,
-                                              fontWeight: FontWeight.w300),
-                                        ),
-                                        Text('°',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 42.0,
-                                                fontWeight: FontWeight.w300)),
-                                      ],
-                                    ),
-                                    Container(
-                                      child: Text(
-                                        'sunny',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 30.0),
-                                      ),
-                                    ),
-                                    Container(
-                                      child: Text(
-                                        'Dar es salaam',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 16.0),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                child: Icon(Icons.wb_sunny),
-                              )
-                            ],
-                          ),
-                        ),
-                        // this container contains bottom tiles
-                        Container(
-                          child: Row(
-                            children: [
-
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  decoration: PageDecoration(
-                    pageColor: Color(0xff3d2441),
-                    titlePadding: EdgeInsets.zero,
-                    imagePadding: EdgeInsets.zero,
-                    contentPadding: EdgeInsets.zero,
-                    descriptionPadding: EdgeInsets.zero,
-                    footerPadding: EdgeInsets.zero,
-                  ))
-            ],
-            // empty done button so as to not disrupt the ui
-            done: const Text(''),
-            // this method returns an empty map.... its just nothing
-            onDone: () => {},
-            dotsDecorator: DotsDecorator(
-                size: const Size.square(10.0),
-                activeSize: const Size(10.0, 10.0),
-                activeColor: Colors.white,
-                color: Colors.black26,
-                spacing: const EdgeInsets.symmetric(horizontal: 3.0),
-                activeShape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25.0))),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10.0),
+            child: Container(
+              width: _width - 10,
+              height: _height,
+              padding: EdgeInsets.only(top: 15.0, left: 15.0, right: 15.0),
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Color(0xFF6B2652), Color(0xFF3E2E4E)])),
+              child: IntroductionScreen(
+                pages: [
+                  ...testData.map((data) => weatherScreen(data['temp'],
+                      data['condition'], data['region'], data['data'])),
+                ],
+                // empty done button so as to not disrupt the ui
+                done: const Text(''),
+                // this method returns an empty map.... its just nothing
+                onDone: () => {},
+                dotsDecorator: DotsDecorator(
+                    size: const Size.square(10.0),
+                    activeSize: const Size(10.0, 10.0),
+                    activeColor: Colors.white,
+                    color: Colors.black26,
+                    spacing: const EdgeInsets.symmetric(horizontal: 3.0),
+                    activeShape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0))),
+              ),
+            ),
           ),
         ),
       ),
     );
   }
 
-  getStatsTile(icon, key, value, _width, primaryColor, secondaryColor) {
+  getStatsTile(icon, key, value, units, _width, primaryColor, secondaryColor) {
     /// [icon] - the icon to be displayed on top
     /// [key] - the title of the tile
     /// [value] - the value of the tile
@@ -175,55 +199,51 @@ class _MyHomePageState extends State<MyHomePage> {
     return ClipRRect(
       borderRadius: BorderRadius.circular(5.0),
       child: Container(
-        width: (_width / 3) - 40.0,
-        padding:
-        EdgeInsets.only(top: 10.0, bottom: 0.0),
-        decoration:
-        BoxDecoration(color: Color(0xFFB93B58)),
+        width: (_width / 3) - 20.0,
+        padding: EdgeInsets.only(top: 10.0, bottom: 0.0),
+        decoration: BoxDecoration(color: primaryColor),
         child: Column(
-          mainAxisAlignment:
-          MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Container(
               height: 50.0,
               width: 50.0,
               decoration: BoxDecoration(
                   color: Colors.white24.withOpacity(.02),
-                  borderRadius:
-                  BorderRadius.circular(30.0)),
+                  borderRadius: BorderRadius.circular(30.0)),
               child: Icon(
-                Weather.wind,
+                icon,
                 color: Colors.white,
               ),
             ),
-            SizedBox(height: 10.0,),
+            SizedBox(
+              height: 10.0,
+            ),
             Container(
               child: RichText(
                 text: TextSpan(
-                    text: '1.6',
-                    style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w300),
+                    text: '$value',
+                    style:
+                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.w300),
                     children: <TextSpan>[
                       TextSpan(
-                          text: 'km/h',
+                          text: '$units',
                           style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight:
-                              FontWeight.w300))
+                              fontSize: 16.0, fontWeight: FontWeight.w300))
                     ]),
               ),
             ),
-            SizedBox(height: 10.0,),
+            SizedBox(
+              height: 10.0,
+            ),
             Container(
-              color: Color(0xFFA42B42),
+              color: secondaryColor,
               height: 30.0,
               width: double.infinity,
               child: Center(
                 child: Text(
-                  'Wind',
-                  style:
-                  TextStyle(color: Colors.white),
+                  '$key',
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
             ),
@@ -231,5 +251,110 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+  }
+
+  weatherScreen(temp, condition, region, List data) {
+    double _width = MediaQuery.of(context).size.width;
+    double _height = MediaQuery.of(context).size.height;
+    return PageViewModel(
+        titleWidget: SizedBox(
+          height: 0,
+        ),
+        bodyWidget: Container(
+          width: _width - 10,
+          height: _height,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Color(0xFF6B2652), Color(0xFF3E2E4E)])),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    /// the first container keeps the temperature and
+                    /// the condition along with the region while the
+                    /// second one keeps the icon of the moon or the sun
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '$temp',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 62.0,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                              Text('°',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 42.0,
+                                      fontWeight: FontWeight.w300)),
+                            ],
+                          ),
+                          Container(
+                            child: Text(
+                              '$condition',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 30.0),
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                              '$region',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16.0),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Icon(Icons.wb_sunny),
+                    )
+                  ],
+                ),
+              ),
+              // this container contains bottom tiles
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ...data.map((item) => getStatsTile(
+                        item['icon'],
+                        item['key'],
+                        item['value'],
+                        item['units'],
+                        _width,
+                        item['primaryColor'],
+                        item['secondaryColor'])),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+        decoration: PageDecoration(
+          pageColor: Color(0xFF4A2C50),
+          titlePadding: EdgeInsets.zero,
+          imagePadding: EdgeInsets.zero,
+          contentPadding: EdgeInsets.zero,
+          descriptionPadding: EdgeInsets.zero,
+          footerPadding: EdgeInsets.zero,
+        ));
   }
 }

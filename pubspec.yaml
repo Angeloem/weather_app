@@ -25,6 +25,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
+  assets:
+    - images/night.png
+
   fonts:
     - family:  Weather
       fonts:
