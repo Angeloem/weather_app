@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final _height = MediaQuery.of(context).size.height;
     final _width = MediaQuery.of(context).size.width;
 
-    final testData = [
+    /*final testData = [
       {
         'temp': '18',
         'condition': 'sunny',
@@ -116,37 +116,9 @@ class _MyHomePageState extends State<MyHomePage> {
         'temp': '18',
         'condition': 'rainy',
         'region': 'Manyara',
-        'data': [
-          {
-            'width': _width,
-            'icon': Weather.wind,
-            'key': 'Wind',
-            'value': '3.0',
-            'units': 'km/h',
-            'primaryColor': Color(0xFFB93B58),
-            'secondaryColor': Color(0xFFA42B42),
-          },
-          {
-            'width': _width,
-            'icon': Weather.water,
-            'key': 'Humidity',
-            'value': '75',
-            'units': '%',
-            'primaryColor': Color(0xFFA64A6F),
-            'secondaryColor': Color(0xFF92395D),
-          },
-          {
-            'width': _width,
-            'icon': Weather.gauge,
-            'key': 'Air Pressure',
-            'value': '1025',
-            'units': 'hpa',
-            'primaryColor': Color(0xFFA64A6F),
-            'secondaryColor': Color(0xFF92395D),
-          },
-        ]
+        'data': []
       }
-    ];
+    ];*/
     final regions = ['Dar es Salaam', 'Mbeya', 'Manyara'];
     return Scaffold(
       body: SafeArea(
@@ -265,16 +237,45 @@ class _MyHomePageState extends State<MyHomePage> {
         bodyWidget: FutureBuilder(
             future: getWeatherInfo(region),
             builder: (context, future) {
-              if (future.data.body != null) {
+              if (future.connectionState == ConnectionState.done) {
                 final results = jsonDecode(future.data.body);
                 WeatherModel weather = WeatherModel(
                   condition: results['weather'].first['main'],
                   temp: results['main']['temp'],
                   visibility: results['visibility'],
                   windSpeed: results['wind']['speed'],
-                  pressure: results['pressure'],
-                  humidity: results['humidity']
+                  pressure: results['main']['pressure'],
+                  humidity: results['main']['humidity']
                 );
+                data = [
+                  {
+                    'width': _width,
+                    'icon': Weather.wind,
+                    'key': 'Wind',
+                    'value': weather.windSpeed,
+                    'units': 'km/h',
+                    'primaryColor': Color(0xFFB93B58),
+                    'secondaryColor': Color(0xFFA42B42),
+                  },
+                  {
+                    'width': _width,
+                    'icon': Weather.water,
+                    'key': 'Humidity',
+                    'value': weather.humidity,
+                    'units': '%',
+                    'primaryColor': Color(0xFFA64A6F),
+                    'secondaryColor': Color(0xFF92395D),
+                  },
+                  {
+                    'width': _width,
+                    'icon': Weather.gauge,
+                    'key': 'Air Pressure',
+                    'value': weather.pressure,
+                    'units': 'hpa',
+                    'primaryColor': Color(0xFFA64A6F),
+                    'secondaryColor': Color(0xFF92395D),
+                  },
+                ];
                 return Container(
                   width: _width - 10,
                   height: _height,
