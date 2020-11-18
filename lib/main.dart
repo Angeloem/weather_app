@@ -1,6 +1,9 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:weather/models.dart';
 import 'package:weather/weather_icons.dart';
 
 void main() {
@@ -144,6 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ]
       }
     ];
+    final regions = ['Dar es Salaam', 'Mbeya', 'Manyara'];
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -165,10 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       end: Alignment.bottomCenter,
                       colors: [Color(0xFF6B2652), Color(0xFF3E2E4E)])),
               child: IntroductionScreen(
-                pages: [
-                  ...testData.map((data) => weatherScreen(data['temp'],
-                      data['condition'], data['region'], data['data'])),
-                ],
+                pages: [...regions.map((region) => weatherScreen(region))],
                 // empty done button so as to not disrupt the ui
                 done: const Text(''),
                 // this method returns an empty map.... its just nothing
@@ -253,101 +254,118 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  weatherScreen(temp, condition, region, List data) {
+  weatherScreen(region) {
     double _width = MediaQuery.of(context).size.width;
     double _height = MediaQuery.of(context).size.height;
+    List data = [];
     return PageViewModel(
         titleWidget: SizedBox(
           height: 0,
         ),
-        bodyWidget: Container(
-          width: _width - 10,
-          height: _height,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Color(0xFF6B2652), Color(0xFF3E2E4E)])),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    /// the first container keeps the temperature and
-                    /// the condition along with the region while the
-                    /// second one keeps the icon of the moon or the sun
-                    Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '$temp',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 62.0,
-                                    fontWeight: FontWeight.w300),
+        bodyWidget: FutureBuilder(
+            future: getWeatherInfo(region),
+            builder: (context, future) {
+              if (future.data.body != null) {
+                final results = jsonDecode(future.data.body);
+                WeatherModel weather = WeatherModel(
+                  condition: results['weather'].first['main'],
+                  temp: results['main']['temp'],
+                  visibility: results['visibility'],
+                  windSpeed: results['wind']['speed'],
+                  pressure: results['pressure'],
+                  humidity: results['humidity']
+                );
+                return Container(
+                  width: _width - 10,
+                  height: _height,
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Color(0xFF6B2652), Color(0xFF3E2E4E)])),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            /// the first container keeps the temperature and
+                            /// the condition along with the region while the
+                            /// second one keeps the icon of the moon or the sun
+                            Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '${weather.temp}',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 62.0,
+                                            fontWeight: FontWeight.w300),
+                                      ),
+                                      Text('°',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 42.0,
+                                              fontWeight: FontWeight.w300)),
+                                    ],
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      '${weather.condition}',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 30.0),
+                                    ),
+                                  ),
+                                  Container(
+                                    child: Text(
+                                      '$region',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 16.0),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              Text('°',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 42.0,
-                                      fontWeight: FontWeight.w300)),
-                            ],
-                          ),
-                          Container(
-                            child: Text(
-                              '$condition',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 30.0),
                             ),
-                          ),
-                          Container(
-                            child: Text(
-                              '$region',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 16.0),
-                            ),
-                          ),
-                        ],
+                            Container(
+                              child: Icon(Icons.wb_sunny),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                      child: Icon(Icons.wb_sunny),
-                    )
-                  ],
-                ),
-              ),
-              // this container contains bottom tiles
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ...data.map((item) => getStatsTile(
-                        item['icon'],
-                        item['key'],
-                        item['value'],
-                        item['units'],
-                        _width,
-                        item['primaryColor'],
-                        item['secondaryColor'])),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
+                      // this container contains bottom tiles
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ...data.map((item) => getStatsTile(
+                                item['icon'],
+                                item['key'],
+                                item['value'],
+                                item['units'],
+                                _width,
+                                item['primaryColor'],
+                                item['secondaryColor'])),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              }
+              return Container();
+            }),
         decoration: PageDecoration(
           pageColor: Color(0xFF4A2C50),
           titlePadding: EdgeInsets.zero,
@@ -356,5 +374,10 @@ class _MyHomePageState extends State<MyHomePage> {
           descriptionPadding: EdgeInsets.zero,
           footerPadding: EdgeInsets.zero,
         ));
+  }
+
+  getWeatherInfo(region) async {
+    return http.get('https://api.openweathermap.org/data/2.5/weather?q'
+        '=$region&appid=8e50c646468aecdc448cbacfcd3a3e79&units=metric');
   }
 }
